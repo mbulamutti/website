@@ -1,0 +1,1478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mbulamutti | Software Development</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    
+    <style>
+        /* ==================== RESET & BASE ==================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: #0D0505;
+            color: #F5F5F5;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        img {
+            max-width: 100%;
+            display: block;
+        }
+
+        /* ==================== SCROLLBAR ==================== */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0D0505;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #8B0000;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #CC0000;
+        }
+
+        /* ==================== BUTTONS ==================== */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 32px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #8B0000, #CC0000);
+            color: #F5F5F5;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(139, 0, 0, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #F5F5F5;
+            border: 2px solid #8B0000;
+        }
+
+        .btn-secondary:hover {
+            background: #8B0000;
+            transform: translateY(-2px);
+        }
+
+        /* ==================== HEADER ==================== */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 16px 0;
+            background: rgba(13, 5, 5, 0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(139, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .logo-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #8B0000, #CC0000);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            font-weight: 900;
+            color: #F5F5F5;
+        }
+
+        .logo h1 {
+            font-size: 22px;
+            font-weight: 800;
+            color: #F5F5F5;
+        }
+
+        .logo span {
+            font-size: 12px;
+            color: #E0E0E0;
+            display: block;
+            font-weight: 400;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 32px;
+        }
+
+        nav ul li a {
+            color: #E0E0E0;
+            font-weight: 500;
+            font-size: 15px;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #CC0000;
+            transition: width 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            color: #F5F5F5;
+        }
+
+        nav ul li a:hover::after {
+            width: 100%;
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 6px;
+            cursor: pointer;
+            padding: 4px;
+        }
+
+        .hamburger span {
+            width: 28px;
+            height: 2.5px;
+            background: #F5F5F5;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(6px, 6px);
+        }
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(6px, -6px);
+        }
+
+        /* ==================== SECTION HEADERS ==================== */
+        .section-header {
+            text-align: center;
+            margin-bottom: 56px;
+        }
+
+        .section-tag {
+            display: inline-block;
+            background: rgba(139, 0, 0, 0.2);
+            color: #CC0000;
+            padding: 6px 18px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+
+        .section-header h2 {
+            font-size: 38px;
+            font-weight: 800;
+            color: #F5F5F5;
+            margin-bottom: 12px;
+        }
+
+        .section-header p {
+            color: #A0A0A0;
+            font-size: 18px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* ==================== HERO ==================== */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 120px 0 80px;
+            background: radial-gradient(ellipse at 20% 50%, #1A0A0A 0%, #0D0505 70%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(139, 0, 0, 0.15), transparent 70%);
+            border-radius: 50%;
+        }
+
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-text .badge {
+            display: inline-block;
+            background: rgba(139, 0, 0, 0.25);
+            color: #CC0000;
+            padding: 6px 18px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+
+        .hero-text h1 {
+            font-size: 52px;
+            font-weight: 900;
+            line-height: 1.15;
+            color: #F5F5F5;
+            margin-bottom: 20px;
+        }
+
+        .hero-text h1 .highlight {
+            background: linear-gradient(135deg, #8B0000, #CC0000);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-text p {
+            font-size: 18px;
+            color: #C0C0C0;
+            max-width: 480px;
+            margin-bottom: 32px;
+            line-height: 1.8;
+        }
+
+        .hero-text p strong {
+            color: #F5F5F5;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .hero-image {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .code-icon {
+            width: 280px;
+            height: 280px;
+            background: radial-gradient(circle, #1A0A0A, #0D0505);
+            border: 2px solid rgba(139, 0, 0, 0.4);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 80px;
+            color: #8B0000;
+            box-shadow: 0 0 60px rgba(139, 0, 0, 0.15);
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .floating-dots {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .floating-dots span {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: #CC0000;
+            border-radius: 50%;
+            opacity: 0.4;
+            animation: float 4s ease-in-out infinite;
+        }
+
+        .floating-dots span:nth-child(1) {
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+        .floating-dots span:nth-child(2) {
+            bottom: 15%;
+            right: 10%;
+            animation-delay: 1.5s;
+            width: 8px;
+            height: 8px;
+        }
+        .floating-dots span:nth-child(3) {
+            top: 50%;
+            right: -5%;
+            animation-delay: 3s;
+            width: 16px;
+            height: 16px;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) scale(1); opacity: 0.4; }
+            50% { transform: translateY(-20px) scale(1.2); opacity: 0.8; }
+        }
+
+        /* ==================== ABOUT ==================== */
+        .about {
+            padding: 100px 0;
+            background: #0D0505;
+            border-top: 1px solid rgba(139, 0, 0, 0.15);
+            border-bottom: 1px solid rgba(139, 0, 0, 0.15);
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+        }
+
+        .about-card {
+            background: #1A0A0A;
+            padding: 40px 32px;
+            border-radius: 20px;
+            border: 1px solid rgba(139, 0, 0, 0.2);
+            transition: all 0.4s ease;
+            text-align: center;
+        }
+
+        .about-card:hover {
+            transform: translateY(-8px);
+            border-color: #8B0000;
+            box-shadow: 0 20px 60px rgba(139, 0, 0, 0.15);
+        }
+
+        .about-card i {
+            font-size: 40px;
+            color: #CC0000;
+            margin-bottom: 18px;
+        }
+
+        .about-card h3 {
+            font-size: 22px;
+            font-weight: 700;
+            color: #F5F5F5;
+            margin-bottom: 12px;
+        }
+
+        .about-card p {
+            color: #C0C0C0;
+            font-size: 15px;
+            line-height: 1.7;
+        }
+
+        .about-card .location-note {
+            margin-top: 12px;
+            font-size: 14px;
+            color: #A0A0A0;
+        }
+
+        .about-card .location-note i {
+            font-size: 14px;
+            color: #A0A0A0;
+            margin-right: 6px;
+        }
+
+        /* ==================== SERVICES ==================== */
+        .services {
+            padding: 100px 0;
+            background: #0D0505;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 28px;
+        }
+
+        .service-card {
+            background: #1A0A0A;
+            padding: 36px 28px;
+            border-radius: 20px;
+            border: 1px solid rgba(139, 0, 0, 0.15);
+            transition: all 0.4s ease;
+            text-align: center;
+        }
+
+        .service-card:hover {
+            transform: translateY(-6px);
+            border-color: #8B0000;
+            box-shadow: 0 15px 40px rgba(139, 0, 0, 0.1);
+        }
+
+        .service-card .icon {
+            width: 64px;
+            height: 64px;
+            background: rgba(139, 0, 0, 0.15);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 18px;
+            font-size: 28px;
+            color: #CC0000;
+            transition: all 0.3s ease;
+        }
+
+        .service-card:hover .icon {
+            background: #8B0000;
+            color: #F5F5F5;
+        }
+
+        .service-card h3 {
+            font-size: 20px;
+            font-weight: 700;
+            color: #F5F5F5;
+            margin-bottom: 10px;
+        }
+
+        .service-card p {
+            color: #B0B0B0;
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        /* ==================== PROJECTS / GITHUB ==================== */
+        .projects {
+            padding: 100px 0;
+            background: #0D0505;
+            border-top: 1px solid rgba(139, 0, 0, 0.15);
+            border-bottom: 1px solid rgba(139, 0, 0, 0.15);
+        }
+
+        .github-showcase {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 28px;
+            margin-bottom: 40px;
+        }
+
+        .github-card {
+            background: #1A0A0A;
+            padding: 32px 28px;
+            border-radius: 20px;
+            border: 1px solid rgba(139, 0, 0, 0.15);
+            transition: all 0.4s ease;
+        }
+
+        .github-card:hover {
+            transform: translateY(-6px);
+            border-color: #8B0000;
+            box-shadow: 0 15px 40px rgba(139, 0, 0, 0.1);
+        }
+
+        .github-card .repo-icon {
+            font-size: 32px;
+            color: #CC0000;
+            margin-bottom: 12px;
+        }
+
+        .github-card h3 {
+            font-size: 20px;
+            font-weight: 700;
+            color: #F5F5F5;
+            margin-bottom: 8px;
+        }
+
+        .github-card p {
+            color: #B0B0B0;
+            font-size: 14px;
+            line-height: 1.7;
+            margin-bottom: 16px;
+        }
+
+        .github-card .repo-meta {
+            display: flex;
+            gap: 18px;
+            font-size: 13px;
+            color: #A0A0A0;
+            margin-bottom: 16px;
+        }
+
+        .github-card .repo-meta span {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .github-card .repo-meta .lang {
+            color: #CC0000;
+            font-weight: 600;
+        }
+
+        .github-card .repo-link {
+            color: #CC0000;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .github-card .repo-link:hover {
+            color: #F5F5F5;
+        }
+
+        .github-cta {
+            text-align: center;
+        }
+
+        .github-cta .btn {
+            padding: 16px 40px;
+            font-size: 18px;
+        }
+
+        /* ==================== CONTACT ==================== */
+        .contact {
+            padding: 100px 0;
+            background: #0D0505;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 60px;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 28px;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 18px;
+        }
+
+        .info-item i {
+            width: 48px;
+            height: 48px;
+            background: rgba(139, 0, 0, 0.15);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: #CC0000;
+            flex-shrink: 0;
+        }
+
+        .info-item h4 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #F5F5F5;
+            margin-bottom: 4px;
+        }
+
+        .info-item p,
+        .info-item a {
+            color: #C0C0C0;
+            font-size: 15px;
+            line-height: 1.6;
+        }
+
+        .info-item a:hover {
+            color: #CC0000;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 14px;
+            margin-top: 8px;
+        }
+
+        .social-links a {
+            width: 48px;
+            height: 48px;
+            background: #1A0A0A;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: #E0E0E0;
+            border: 1px solid rgba(139, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            background: #8B0000;
+            color: #F5F5F5;
+            border-color: #8B0000;
+            transform: translateY(-3px);
+        }
+
+        .contact-form {
+            background: #1A0A0A;
+            padding: 40px;
+            border-radius: 24px;
+            border: 1px solid rgba(139, 0, 0, 0.15);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            font-size: 14px;
+            color: #E0E0E0;
+            margin-bottom: 6px;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 14px 18px;
+            background: #0D0505;
+            border: 1px solid rgba(139, 0, 0, 0.2);
+            border-radius: 12px;
+            color: #F5F5F5;
+            font-size: 15px;
+            font-family: inherit;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #8B0000;
+            box-shadow: 0 0 0 4px rgba(139, 0, 0, 0.1);
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: #666;
+        }
+
+        .contact-form button {
+            width: 100%;
+            justify-content: center;
+            font-size: 17px;
+        }
+
+        /* ==================== FOOTER ==================== */
+        footer {
+            padding: 60px 0 24px;
+            background: #0D0505;
+            border-top: 1px solid rgba(139, 0, 0, 0.15);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1.5fr;
+            gap: 48px;
+            margin-bottom: 40px;
+        }
+
+        .footer-brand .logo {
+            margin-bottom: 16px;
+        }
+
+        .footer-brand .logo .logo-icon {
+            width: 40px;
+            height: 40px;
+            font-size: 18px;
+        }
+
+        .footer-brand .logo h3 {
+            font-size: 18px;
+        }
+
+        .footer-brand p {
+            color: #A0A0A0;
+            font-size: 14px;
+            line-height: 1.7;
+            max-width: 320px;
+        }
+
+        .footer-links h4,
+        .footer-contact h4 {
+            font-size: 16px;
+            font-weight: 700;
+            color: #F5F5F5;
+            margin-bottom: 16px;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links ul li a {
+            color: #A0A0A0;
+            font-size: 14px;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links ul li a:hover {
+            color: #CC0000;
+        }
+
+        .footer-contact p {
+            color: #A0A0A0;
+            font-size: 14px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .footer-contact p i {
+            color: #CC0000;
+            width: 18px;
+        }
+
+        .footer-bottom {
+            padding-top: 24px;
+            border-top: 1px solid rgba(139, 0, 0, 0.15);
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .footer-bottom p {
+            color: #666;
+            font-size: 13px;
+        }
+
+        .footer-bottom p:last-child {
+            color: #8B0000;
+        }
+
+        /* ==================== TOAST NOTIFICATION ==================== */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #1A0A0A;
+            border: 1px solid #8B0000;
+            padding: 18px 28px;
+            border-radius: 12px;
+            color: #F5F5F5;
+            font-size: 15px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.5s ease;
+            z-index: 9999;
+            max-width: 400px;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .toast i {
+            color: #CC0000;
+            margin-right: 10px;
+        }
+
+        /* ==================== RESPONSIVE ==================== */
+        @media (max-width: 1024px) {
+            .about-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .services-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .github-showcase {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 900px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            .hero-text h1 {
+                font-size: 40px;
+            }
+            .hero-text p {
+                max-width: 100%;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            .hero-buttons {
+                justify-content: center;
+            }
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 32px;
+                text-align: center;
+            }
+            .footer-brand p {
+                max-width: 100%;
+                margin: 0 auto;
+            }
+            .footer-contact p {
+                justify-content: center;
+            }
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 768px) {
+            nav ul {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 280px;
+                height: 100vh;
+                background: #0D0505;
+                flex-direction: column;
+                padding: 80px 32px 32px;
+                gap: 20px;
+                transition: right 0.4s ease;
+                border-left: 1px solid rgba(139, 0, 0, 0.2);
+            }
+            nav ul.open {
+                right: 0;
+            }
+            nav ul li a {
+                font-size: 18px;
+            }
+            .hamburger {
+                display: flex;
+                z-index: 1001;
+            }
+            .hero-text h1 {
+                font-size: 32px;
+            }
+            .code-icon {
+                width: 200px;
+                height: 200px;
+                font-size: 60px;
+            }
+            .about-grid {
+                grid-template-columns: 1fr;
+            }
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+            .github-showcase {
+                grid-template-columns: 1fr;
+            }
+            .section-header h2 {
+                font-size: 28px;
+            }
+            .contact-form {
+                padding: 24px;
+            }
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-text h1 {
+                font-size: 28px;
+            }
+            .hero {
+                padding: 100px 0 60px;
+            }
+            .btn {
+                padding: 12px 24px;
+                font-size: 14px;
+                width: 100%;
+                justify-content: center;
+            }
+            .hero-buttons {
+                flex-direction: column;
+                width: 100%;
+            }
+            .code-icon {
+                width: 160px;
+                height: 160px;
+                font-size: 48px;
+            }
+            .floating-dots span {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ==================== HEADER ==================== -->
+    <header>
+        <div class="container">
+            <div class="logo">
+                <div class="logo-icon">M</div>
+                <div>
+                    <h1>Mbulamutti</h1>
+                    <span>Software Development</span>
+                </div>
+            </div>
+            <nav>
+                <ul id="navMenu">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#projects">Projects</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+                <div class="hamburger" id="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- ==================== HERO ==================== -->
+    <section id="home" class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <span class="badge">Software Development Department</span>
+                    <h1>Building Digital Solutions <br /><span class="highlight">That Matter</span></h1>
+                    <p>
+                        Mbulamutti is the software development arm of
+                        <strong>Mutuma Commercial Agencies Ltd</strong>.
+                        We craft innovative, reliable, and scalable digital products
+                        for businesses and individuals.
+                    </p>
+                    <div class="hero-buttons">
+                        <a href="#projects" class="btn btn-primary">
+                            <i class="fas fa-code"></i> View Our Work
+                        </a>
+                        <a href="#contact" class="btn btn-secondary">
+                            <i class="fas fa-envelope"></i> Get In Touch
+                        </a>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <div class="code-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <div class="floating-dots">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== ABOUT ==================== -->
+    <section id="about" class="about">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">About Us</span>
+                <h2>Who We Are</h2>
+                <p>Mbulamutti is the dedicated software development department of Mutuma Commercial Agencies Ltd.</p>
+            </div>
+
+            <div class="about-grid">
+                <div class="about-card">
+                    <i class="fas fa-building"></i>
+                    <h3>Our Company</h3>
+                    <p>
+                        <strong>Mutuma Commercial Agencies Ltd</strong> is a trusted
+                        Ugandan company with a commitment to excellence. Mbulamutti
+                        represents our technology and innovation division.
+                    </p>
+                </div>
+                <div class="about-card">
+                    <i class="fas fa-map-pin"></i>
+                    <h3>Our Location</h3>
+                    <p>
+                        Bombo Road Building, Plot 35/36,<br />
+                        Kawempe, Kampala, Uganda.
+                    </p>
+                    <p class="location-note">
+                        <i class="fas fa-clock"></i> Mon–Fri, 8:00 AM – 5:00 PM
+                    </p>
+                </div>
+                <div class="about-card">
+                    <i class="fas fa-rocket"></i>
+                    <h3>Our Mission</h3>
+                    <p>
+                        To deliver cutting-edge software solutions that empower
+                        businesses, streamline operations, and drive growth across
+                        Uganda and beyond.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== SERVICES ==================== -->
+    <section id="services" class="services">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">What We Do</span>
+                <h2>Our Services</h2>
+                <p>We offer a wide range of software development services tailored to your needs.</p>
+            </div>
+
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="icon"><i class="fas fa-mobile-alt"></i></div>
+                    <h3>Mobile App Development</h3>
+                    <p>Native and cross-platform apps for Android, iOS, and Windows using .NET MAUI and modern frameworks.</p>
+                </div>
+                <div class="service-card">
+                    <div class="icon"><i class="fas fa-laptop-code"></i></div>
+                    <h3>Web Development</h3>
+                    <p>Responsive, performant websites and web applications built with modern technologies.</p>
+                </div>
+                <div class="service-card">
+                    <div class="icon"><i class="fas fa-database"></i></div>
+                    <h3>Database & Backend</h3>
+                    <p>Scalable database design, API development, and cloud infrastructure for your applications.</p>
+                </div>
+                <div class="service-card">
+                    <div class="icon"><i class="fas fa-gamepad"></i></div>
+                    <h3>Game Development</h3>
+                    <p>Engaging mobile and desktop games with rich visuals and interactive gameplay.</p>
+                </div>
+                <div class="service-card">
+                    <div class="icon"><i class="fas fa-brain"></i></div>
+                    <h3>AI & Machine Learning</h3>
+                    <p>Intelligent solutions powered by AI to automate, predict, and enhance business processes.</p>
+                </div>
+                <div class="service-card">
+                    <div class="icon"><i class="fas fa-shield-alt"></i></div>
+                    <h3>IT Consulting</h3>
+                    <p>Expert guidance on technology strategy, software architecture, and digital transformation.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== PROJECTS ==================== -->
+    <section id="projects" class="projects">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Our Work</span>
+                <h2>GitHub Projects</h2>
+                <p>Explore our open-source and client projects hosted on GitHub.</p>
+            </div>
+
+            <div class="github-showcase">
+                <div class="github-card">
+                    <div class="repo-icon"><i class="fab fa-github"></i></div>
+                    <h3>Wakalebire</h3>
+                    <p>Visual memory challenge game built with .NET MAUI. Maroon/Chocolate theme.</p>
+                    <div class="repo-meta">
+                        <span><i class="fas fa-star"></i> 12</span>
+                        <span><i class="fas fa-code-branch"></i> 3</span>
+                        <span class="lang">C#</span>
+                    </div>
+                    <a href="#" class="repo-link">View Repository →</a>
+                </div>
+
+                <div class="github-card">
+                    <div class="repo-icon"><i class="fab fa-github"></i></div>
+                    <h3>Mutuma POS</h3>
+                    <p>Point of Sale system for retail businesses built with .NET MAUI and SQLite.</p>
+                    <div class="repo-meta">
+                        <span><i class="fas fa-star"></i> 8</span>
+                        <span><i class="fas fa-code-branch"></i> 2</span>
+                        <span class="lang">C#</span>
+                    </div>
+                    <a href="#" class="repo-link">View Repository →</a>
+                </div>
+
+                <div class="github-card">
+                    <div class="repo-icon"><i class="fab fa-github"></i></div>
+                    <h3>Kawempe Market</h3>
+                    <p>E-commerce platform for local vendors in Kawempe, Kampala.</p>
+                    <div class="repo-meta">
+                        <span><i class="fas fa-star"></i> 15</span>
+                        <span><i class="fas fa-code-branch"></i> 5</span>
+                        <span class="lang">JavaScript</span>
+                    </div>
+                    <a href="#" class="repo-link">View Repository →</a>
+                </div>
+            </div>
+
+            <div class="github-cta">
+                <a href="https://github.com/mbulamutti" target="_blank" class="btn btn-primary">
+                    <i class="fab fa-github"></i> Visit Our GitHub
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== CONTACT ==================== -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Get In Touch</span>
+                <h2>Contact Us</h2>
+                <p>Have a project in mind? Let's talk about how we can bring your ideas to life.</p>
+            </div>
+
+            <div class="contact-grid">
+                <div class="contact-info">
+                    <div class="info-item">
+                        <i class="fas fa-envelope"></i>
+                        <div>
+                            <h4>Email</h4>
+                            <a href="mailto:mbulamutti@gmail.com">mbulamutti@gmail.com</a>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div>
+                            <h4>Location</h4>
+                            <p>Bombo Road Building, Plot 35/36,<br />Kawempe, Kampala, Uganda</p>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-building"></i>
+                        <div>
+                            <h4>Company</h4>
+                            <p>Mutuma Commercial Agencies Ltd</p>
+                        </div>
+                    </div>
+                    <div class="social-links">
+                        <a href="https://github.com/mbulamutti" target="_blank"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+
+                <form class="contact-form" id="contactForm">
+                    <div class="form-group">
+                        <label for="name">Your Name</label>
+                        <input type="text" id="name" placeholder="Enter your name" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" placeholder="Enter your email" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="subject">Subject</label>
+                        <input type="text" id="subject" placeholder="What's this about?" />
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" rows="5" placeholder="Tell us about your project..."></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-paper-plane"></i> Send Message
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== FOOTER ==================== -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="logo">
+                        <div class="logo-icon">M</div>
+                        <div>
+                            <h3>Mbulamutti</h3>
+                            <span>Software Development</span>
+                        </div>
+                    </div>
+                    <p>
+                        Building digital solutions that matter. A department of
+                        Mutuma Commercial Agencies Ltd.
+                    </p>
+                </div>
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#services">Services</a></li>
+                        <li><a href="#projects">Projects</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h4>Contact</h4>
+                    <p><i class="fas fa-envelope"></i> mbulamutti@gmail.com</p>
+                    <p><i class="fas fa-map-marker-alt"></i> Bombo Road, Plot 35/36</p>
+                    <p><i class="fas fa-map-pin"></i> Kawempe, Kampala, Uganda</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Mbulamutti — Software Development Department of Mutuma Commercial Agencies Ltd.</p>
+                <p>Built with ❤️ in Kampala, Uganda</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ==================== TOAST ==================== -->
+    <div class="toast" id="toast">
+        <i class="fas fa-check-circle"></i>
+        <span id="toastMessage">Message sent successfully!</span>
+    </div>
+
+    <!-- ==================== JAVASCRIPT ==================== -->
+    <script>
+        // ==================== HAMBURGER MENU ====================
+        const hamburger = document.getElementById('hamburger');
+        const navMenu = document.getElementById('navMenu');
+
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('open');
+        });
+
+        // Close menu on link click
+        document.querySelectorAll('nav ul li a').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('open');
+            });
+        });
+
+        // ==================== SMOOTH SCROLL ====================
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    const headerOffset = 80;
+                    const elementPosition = target.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // ==================== ACTIVE NAV LINK ====================
+        const sections = document.querySelectorAll('section[id]');
+        const navLinks = document.querySelectorAll('nav ul li a');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 120;
+                if (window.pageYOffset >= sectionTop) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.style.color = '#E0E0E0';
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.style.color = '#CC0000';
+                }
+            });
+        });
+
+        // ==================== CONTACT FORM ====================
+        const contactForm = document.getElementById('contactForm');
+        const toast = document.getElementById('toast');
+        const toastMessage = document.getElementById('toastMessage');
+
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const subject = document.getElementById('subject').value.trim() || 'No Subject';
+            const message = document.getElementById('message').value.trim();
+
+            if (!name || !email || !message) {
+                showToast('Please fill in all required fields.', 'error');
+                return;
+            }
+
+            if (!isValidEmail(email)) {
+                showToast('Please enter a valid email address.', 'error');
+                return;
+            }
+
+            // Build mailto link
+            const mailtoLink = `mailto:mbulamutti@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(
+                `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`
+            )}`;
+
+            // Open email client
+            window.location.href = mailtoLink;
+
+            // Show success message
+            showToast('Opening your email client... Thank you for reaching out!', 'success');
+
+            // Reset form
+            contactForm.reset();
+        });
+
+        function isValidEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(email);
+        }
+
+        // ==================== TOAST NOTIFICATION ====================
+        let toastTimeout;
+
+        function showToast(message, type = 'success') {
+            toastMessage.textContent = message;
+            toast.className = 'toast';
+
+            if (type === 'error') {
+                toast.style.borderColor = '#FF0000';
+                toast.querySelector('i').className = 'fas fa-exclamation-circle';
+                toast.querySelector('i').style.color = '#FF0000';
+            } else {
+                toast.style.borderColor = '#8B0000';
+                toast.querySelector('i').className = 'fas fa-check-circle';
+                toast.querySelector('i').style.color = '#CC0000';
+            }
+
+            // Show toast
+            setTimeout(() => {
+                toast.classList.add('show');
+            }, 100);
+
+            // Clear previous timeout
+            if (toastTimeout) {
+                clearTimeout(toastTimeout);
+            }
+
+            // Auto hide after 5 seconds
+            toastTimeout = setTimeout(() => {
+                toast.classList.remove('show');
+            }, 5000);
+        }
+
+        // ==================== HEADER SCROLL EFFECT ====================
+        let lastScroll = 0;
+        const header = document.querySelector('header');
+
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.pageYOffset;
+
+            if (currentScroll > 100) {
+                header.style.background = 'rgba(13, 5, 5, 0.98)';
+                header.style.boxShadow = '0 4px 30px rgba(0, 0, 0, 0.5)';
+            } else {
+                header.style.background = 'rgba(13, 5, 5, 0.95)';
+                header.style.boxShadow = 'none';
+            }
+
+            lastScroll = currentScroll;
+        });
+
+        // ==================== ANIMATION ON SCROLL (Intersection Observer) ====================
+        const animateCards = (entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }, index * 100);
+                }
+            });
+        };
+
+        const observer = new IntersectionObserver(animateCards, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        });
+
+        // Observe all cards
+        document.querySelectorAll('.about-card, .service-card, .github-card').forEach((card, index) => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(30px)';
+            card.style.transition = `all 0.6s cubic-bezier(0.4, 0, 0.2, 1)`;
+            observer.observe(card);
+        });
+
+        console.log('🚀 Mbulamutti — Building digital solutions that matter.');
+        console.log('📍 Bombo Road, Plot 35/36, Kawempe, Kampala, Uganda');
+        console.log('📧 mbulamutti@gmail.com');
+    </script>
+
+</body>
+</html>
